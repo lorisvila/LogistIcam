@@ -1,0 +1,11 @@
+services:
+  mariadb:
+    image: mariadb:10
+    restart: always
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: BestPasswordEver:)
+    volumes:
+      - ./bdd/db:/var/lib/mysql
+      - ./bdd/init.sql:/docker-entrypoint-initdb.d/init.sql
