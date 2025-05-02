@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title_url %}Transactions{% endblock %}
+{% block title_page %}Transactions{% endblock %}
+
+{% block content %}
+    <h2>Historique des Transactions</h2>
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>Produit</th>
+                    <th>Quantité</th>
+                    <th>Date/Heure</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for transaction in transactions %}
+                <tr>
+                    <td>{{ transaction.produit.produit }}</td>
+                    <td>{{ transaction.quantity }}</td>
+                    <td>{{ transaction.time|date:"d/m/Y H:i" }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+{% endblock %}
