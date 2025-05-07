@@ -21,18 +21,16 @@
 <body>
 
     <nav class="navbar navbar-expand-md navbar-dark bg-primary">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="/"><h3>LogistIcam</h3></a>
-
-            <div class="collapse navbar-collapse" id="navbarCollapse">
-                <ul class="navbar-nav me-auto mb-2 mb-md-0">
-                    <li class="nav-item">
-                        <span class="badge bg-light text-dark">
-                            {% block title_page %}{% endblock %}
-                        </span>
-                    </li>
-                </ul>
-            </div>
+        <a class="navbar-brand d-flex flex-row align-items-center gap-1" href="/">
+            <h3>LogistIcam</h3>
+            <span class="badge bg-light text-dark ms-2">{% block title_page %}{% endblock %}</span>
+        </a>
+        <div style="flex: 1; display: flex; justify-content: end; align-items: center; gap: .5em" class="me-2">
+            {% if user.is_authenticated %}
+                <span style="color: white">Bienvenue</span>
+                <span class="badge bg-warning text-dark"> {{ user.username }}</span>
+                <a href='{% url 'main:logout' %}' class="btn btn-secondary">Se déconnecter</a>
+            {% endif %}
         </div>
     </nav>
 
