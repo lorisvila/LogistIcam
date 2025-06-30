@@ -15,6 +15,7 @@
                     <th>Produit</th>
                     <th>Quantité</th>
                     <th>Prix vente</th>
+                    <th>Prix d'achat</th>
                     <th>Capital en stock</th>
                     <th style="width: 5em">Graph</th>
                     <th style="width: 5em">Edition</th>
@@ -26,6 +27,7 @@
                         <td>{{ stock.produit }}</td>
                         <td>{{ stock.quantity }}</td>
                         <td>{{ stock.prix_vente }} €</td>
+                        <td>{{ stock.prix_achat }} €</td>
                         <td>{{ stock.retail_value }} €</td>
                         <td>
                             <a href="{% url 'main:details_stock' stock.id %}" class="btn btn-primary btn-sm">📊️</a>

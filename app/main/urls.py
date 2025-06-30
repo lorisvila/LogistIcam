@@ -23,5 +23,5 @@ urlpatterns = [
     path('stocks/<int:pk>/details/', views.stock_transactions_view, name='details_stock'),
     path('stocks/add/', views.page_add_stock, name='add_stock'),
     path('clients/list', views.client_list, name='list_clients'),
-    path('clients/add/', views.client_list, name='add_client'),
+    path('clients/add/', views.page_add_client, name='add_client'),
 ]

@@ -6,17 +6,103 @@ from django.db.models import Count, Sum, Q, F, DecimalField, ExpressionWrapper, 
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.views.generic import DeleteView
-
-from . import models
 from .common_functions import filter_transactions
-from .forms import StockForm, TransactionForm
+from .forms import StockForm, TransactionForm, ClientForm
 from .models import Transaction, Stock, Client
 from datetime import timedelta
 from django.http import Http404
+from datetime import datetime
+from decimal import Decimal
+from django.shortcuts import render
+from django.contrib.auth.decorators import permission_required
+from django.db.models import Sum, Count, F, ExpressionWrapper, DecimalField
+from django.utils import timezone
+
+from .models import Transaction
 
 @permission_required('main.view_transaction', login_url='/login/')
 def page_accueil_view(request):
-    return render(request, 'page_accueil.html')
+    # 1) Début du mois courant
+    now = timezone.now()
+    month_start = now.replace(day=1, hour=0, minute=0, second=0, microsecond=0)
+
+    # 2) Filtrer les transactions du mois
+    trans_month = Transaction.objects.filter(time__gte=month_start)
+    ventes = trans_month.filter(type='Vente')
+    achats = trans_month.filter(type='Achat')
+
+    # 3) Nombre de ventes
+    nb_ventes = ventes.count()
+
+    # 4) Chiffre d'affaires du mois (= somme quantité * prix_vente)
+    ca_aggregate = ventes.annotate(
+        revenue=ExpressionWrapper(
+            F('quantity') * F('produit__prix_vente'),
+            output_field=DecimalField(max_digits=14, decimal_places=2)
+        )
+    ).aggregate(total_ca=Sum('revenue'))
+    chiffre_affaires = ca_aggregate['total_ca'] or Decimal('0.00')
+
+    # 5) Coût d'achat du mois (= somme quantité * prix_achat)
+    cost_aggregate = ventes.annotate(
+        cost=ExpressionWrapper(
+            F('quantity') * F('produit__prix_achat'),
+            output_field=DecimalField(max_digits=14, decimal_places=2)
+        )
+    ).aggregate(total_cost=Sum('cost'))
+    total_cost = cost_aggregate['total_cost'] or Decimal('0.00')
+
+    # 6) Bénéfice du mois
+    benefice = chiffre_affaires - total_cost
+
+    # 7) Articles les plus vendus (top 5)
+    articles_most_sold = (
+        ventes
+        .values('produit__produit')
+        .annotate(total_qty=Sum('quantity'))
+        .order_by('-total_qty')[:5]
+    )
+
+    # 8) Articles les plus achetés (top 5)
+    articles_most_bought = (
+        achats
+        .values('produit__produit')
+        .annotate(total_qty=Sum('quantity'))
+        .order_by('-total_qty')[:5]
+    )
+
+    # 9) Client du mois (celui qui a généré le plus de CA)
+    client_spend = (
+        ventes
+        .filter(client__isnull=False)
+        .annotate(spent=ExpressionWrapper(
+            F('quantity') * F('produit__prix_vente'),
+            output_field=DecimalField(max_digits=14, decimal_places=2)
+        ))
+        .values('client', 'client__name', 'client__surname')
+        .annotate(total_spent=Sum('spent'))
+        .order_by('-total_spent')
+    )
+    if client_spend:
+        top = client_spend[0]
+        client_of_month = {
+            'id': top['client'],
+            'name': f"{top['client__name']} {top['client__surname']}",
+            'total_spent': top['total_spent']
+        }
+    else:
+        client_of_month = None
+
+    # 10) Passage du contexte à la vue
+    context = {
+        'nb_ventes': nb_ventes,
+        'chiffre_affaires': chiffre_affaires,
+        'benefice': benefice,
+        'articles_most_sold': articles_most_sold,
+        'articles_most_bought': articles_most_bought,
+        'client_of_month': client_of_month,
+    }
+    return render(request, 'page_accueil.html', context)
 
 @permission_required('main.view_transaction', login_url='/login/')
 def page_transactions_view(request):
@@ -194,17 +280,17 @@ def client_list(request):
         vente_transactions=Count('transaction', filter=Q(transaction__type="Vente"))
     ).order_by('name', 'surname')
 
-    # For debugging - check the first client's values
-    debug_client = clients.first()
-    if debug_client:
-        print(f"""
-        Client: {debug_client.name} {debug_client.surname}
-        Total transactions: {debug_client.transaction_count}
-        Achat count: {debug_client.achat_transactions}
-        Vente count: {debug_client.vente_transactions}
-        Total Achat: {debug_client.total_achat}
-        Total Vente: {debug_client.total_vente}
-        """)
-
     context = {'clients': clients}
     return render(request, 'clients/page_clients.html', context)
+
+@permission_required('main.add_stock', login_url='/login/')
+def page_add_client(request):
+    if request.method == 'POST':
+        form = ClientForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('main:list_clients')
+    else:
+        form = ClientForm()
+
+    return render(request, 'clients/page_add_client.html', {'form': form})
