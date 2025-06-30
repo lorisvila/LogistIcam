@@ -4,7 +4,6 @@
 {% block title_page %}Stocks{% endblock %}
 
 {% block content %}
-    <h2>Stocks dans l'entrepot</h2>
     <div class="d-flex flex-column">
         <div class="d-flex flex-row">
             <a class="btn btn-primary flex-grow-1" href="{% url 'main:add_stock'%}">Ajouter un produit</a>
@@ -15,8 +14,9 @@
                 <tr>
                     <th>Produit</th>
                     <th>Quantité</th>
-                    <th>Prix unitaire</th>
+                    <th>Prix vente</th>
                     <th>Capital en stock</th>
+                    <th style="width: 5em">Graph</th>
                     <th style="width: 5em">Edition</th>
                 </tr>
                 </thead>
@@ -25,10 +25,13 @@
                     <tr>
                         <td>{{ stock.produit }}</td>
                         <td>{{ stock.quantity }}</td>
-                        <td>{{ stock.prix_unitaire }} €</td>
-                        <td>{{ stock.total_price }} €</td>
+                        <td>{{ stock.prix_vente }} €</td>
+                        <td>{{ stock.retail_value }} €</td>
                         <td>
-                            <a href="{% url 'main:edit_stock' stock.id %}" class="btn btn-primary btn-sm">✏️</a>
+                            <a href="{% url 'main:details_stock' stock.id %}" class="btn btn-primary btn-sm">📊️</a>
+                        </td>                        
+                        <td>
+                            <a href="{% url 'main:edit_stock' stock.id %}" class="btn btn-warning btn-sm">✏️</a>
                         </td>
                     </tr>
                 {% endfor %}

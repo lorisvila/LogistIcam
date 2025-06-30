@@ -4,23 +4,74 @@
 {% block title_page %}Transactions{% endblock %}
 
 {% block content %}
-    <h2>Historique des Transactions</h2>
-        <table class="table table-striped table-hover">
-            <thead>
+
+        <div class="d-flex flex-column gap-2">
+            <a class="btn btn-primary flex-grow-1" href="{% url 'main:add_transaction'%}">Enregistrer une transaction</a>
+        </div>
+        <div class="card mt-2">
+            <table class="table table-striped table-hover">
+                <thead>
                 <tr>
                     <th>Produit</th>
                     <th>Quantité</th>
+                    <th>Stock à date</th>
+                    <th>Client</th>
                     <th>Date/Heure</th>
                 </tr>
-            </thead>
-            <tbody>
+                </thead>
+                <tbody>
                 {% for transaction in transactions %}
-                <tr>
-                    <td>{{ transaction.produit.produit }}</td>
-                    <td>{{ transaction.quantity }}</td>
-                    <td>{{ transaction.time|date:"d/m/Y H:i" }}</td>
-                </tr>
+                    <tr>
+                        <td>{{ transaction.produit.produit }}</td>
+                        <td>{{ transaction.quantity }}</td>
+                        <td>{{ transaction.new_stock_qt }}</td>
+                        <td>{{ transaction.client }}</td>
+                        <td>{{ transaction.time|date:"d/m/Y H:i" }}</td>
+                    </tr>
                 {% endfor %}
-            </tbody>
-        </table>
+                </tbody>
+            </table>
+        </div>
+
+    <script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Set default dates: last 7 days
+    const urlParams = new URLSearchParams(window.location.search);
+    const endDate = new Date();
+    const startDate = new Date();
+    startDate.setDate(startDate.getDate() - 7);
+
+    // Format dates to YYYY-MM-DD
+    const formatDate = (date) => date.toISOString().split('T')[0];
+
+    // Set default values if no params
+    if(!urlParams.has('start_date') && !urlParams.has('end_date')) {
+        document.getElementById('start_date').value = formatDate(startDate);
+        document.getElementById('end_date').value = formatDate(endDate);
+    } else {
+        // Sync input fields with current query params
+        if(urlParams.has('start_date')) {
+            document.getElementById('start_date').value = urlParams.get('start_date');
+        }
+        if(urlParams.has('end_date')) {
+            document.getElementById('end_date').value = urlParams.get('end_date');
+        }
+    }
+
+    // Add presets
+    document.querySelectorAll('.date-preset').forEach(button => {
+        button.addEventListener('click', function(e) {
+            e.preventDefault();
+            const days = parseInt(this.dataset.days);
+            const end = new Date();
+            const start = new Date();
+            start.setDate(start.getDate() - days);
+
+            document.getElementById('start_date').value = formatDate(start);
+            document.getElementById('end_date').value = formatDate(end);
+            this.closest('form').submit();
+        });
+    });
+});
+</script>
 {% endblock %}

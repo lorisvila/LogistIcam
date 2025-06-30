@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>LogistIcam - {% block title_url %}{% endblock %}</title>
+    {% load bootstrap5 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+    <style>
+        .sidebar {
+            min-height: calc(100vh - 56px);
+            background-color: #f8f9fa;
+            padding: 20px;
+        }
+        .main-content {
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-md navbar-dark" style="background-color: #0ABAB5">
+        <a class="navbar-brand d-flex flex-row align-items-center" href="/">
+            <h3>Logist'</h3>
+            {% load static %}
+            <img src="{% static 'logo.webp' %}" style="height: 2.5em; position: relative; left: -0.5em; top: -0.5em">
+            <span class="badge bg-light text-dark ms-2">{% block title_page %}{% endblock %}</span>
+        </a>
+        <div style="flex: 1; display: flex; justify-content: end; align-items: center; gap: .5em" class="me-2">
+            {% if user.is_authenticated %}
+                <span style="color: white">Bienvenue</span>
+                <span class="badge bg-warning text-dark"> {{ user.username }}</span>
+                <a href='{% url 'main:logout' %}' class="btn btn-secondary">Se déconnecter</a>
+            {% endif %}
+        </div>
+    </nav>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-3 col-lg-2 d-md-block sidebar">
+                {% include 'components/sidebar.html' %}
+            </div>
+            <div class="col-md-9 col-lg-10 ms-sm-auto main-content">
+                {% block content %}{% endblock %}
+            </div>
+        </div>
+    </div>
+</body>
+</html>

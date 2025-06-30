@@ -1,12 +1,11 @@
 {% extends "base.html" %}
 
 {% block title_url %}Editer Produit{% endblock %}
-{% block title_page %}Editer Produit{% endblock %}
+{% block title_page %}Modification du produit <span style="font-size: .8em; background-color: lightgray; border-radius: .5em; padding: .1em .2em">{{ form.initial.produit }}</span>{% endblock %}
 
 
 {% block content %}
 <div class="container mt-4">
-    <h2 class="mb-2">Modification du produit <span style="font-size: .8em; background-color: lightgray; border-radius: .5em; padding: .1em .2em">{{ form.initial.produit }}</span></h2>
     <form method="post">
         {% csrf_token %}
         <div class="mb-3">

@@ -1,48 +1,248 @@
 <!DOCTYPE html>
 <html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>LogistIcam - {% block title_url %}{% endblock %}</title>
-    {% load bootstrap5 %}
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+      {% load bootstrap5 %}
     {% bootstrap_css %}
     {% bootstrap_javascript %}
+    <!-- Custom styles for this template -->
     <style>
-        .sidebar {
-            min-height: calc(100vh - 56px);
-            background-color: #f8f9fa;
-            padding: 20px;
-        }
-        .main-content {
-            padding: 20px;
-        }
-    </style>
-</head>
-<body>
+        body {
+  font-size: .875rem;
+}
 
-    <nav class="navbar navbar-expand-md navbar-dark bg-primary">
-        <a class="navbar-brand d-flex flex-row align-items-center gap-1" href="/">
-            <h3>LogistIcam</h3>
-            <span class="badge bg-light text-dark ms-2">{% block title_page %}{% endblock %}</span>
+.feather {
+  width: 16px;
+  height: 16px;
+  vertical-align: text-bottom;
+}
+
+/*
+ * Sidebar
+ */
+
+.sidebar {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 100; /* Behind the navbar */
+  padding: 0;
+  box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+}
+
+.sidebar-sticky {
+  position: sticky;
+  top: 48px; /* Height of navbar */
+  height: calc(100vh - 48px);
+  padding-top: .5rem;
+  overflow-x: hidden;
+  overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
+}
+
+.sidebar .nav-link {
+  font-weight: 500;
+  color: #333;
+}
+
+.sidebar .nav-link .feather {
+  margin-right: 4px;
+  color: #999;
+}
+
+.sidebar .nav-link.active {
+  color: #007bff;
+}
+
+.sidebar .nav-link:hover .feather,
+.sidebar .nav-link.active .feather {
+  color: inherit;
+}
+
+.sidebar-heading {
+  font-size: .75rem;
+  text-transform: uppercase;
+}
+
+/*
+ * Navbar
+ */
+
+.navbar-brand {
+  padding-top: .75rem;
+  padding-bottom: .75rem;
+  font-size: 1rem;
+  background-color: rgba(0, 0, 0, .25);
+  box-shadow: inset -1px 0 0 rgba(0, 0, 0, .25);
+}
+
+.navbar .form-control {
+  padding: .75rem 1rem;
+  border-width: 0;
+  border-radius: 0;
+}
+
+.form-control-dark {
+  color: #fff;
+  background-color: rgba(255, 255, 255, .1);
+  border-color: rgba(255, 255, 255, .1);
+}
+
+.form-control-dark:focus {
+  border-color: transparent;
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, .25);
+}
+
+/*
+ * Utilities
+ */
+
+.border-top { border-top: 1px solid #e5e5e5; }
+.border-bottom { border-bottom: 1px solid #e5e5e5; }
+
+    </style>
+  </head>
+
+  <body>
+    <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0">
+      <a class="navbar-brand d-flex flex-row align-items-center ps-3" href="/">
+            <h3>Logist'</h3>
+            {% load static %}
+            <img src="{% static 'logo.webp' %}" style="height: 2.5em; position: relative; left: -0.5em; top: -0.5em">
         </a>
-        <div style="flex: 1; display: flex; justify-content: end; align-items: center; gap: .5em" class="me-2">
+      <ul class="navbar-nav px-3">
+        <li class="nav-item text-nowrap">
             {% if user.is_authenticated %}
-                <span style="color: white">Bienvenue</span>
-                <span class="badge bg-warning text-dark"> {{ user.username }}</span>
-                <a href='{% url 'main:logout' %}' class="btn btn-secondary">Se déconnecter</a>
+          <a class="nav-link" href='{% url 'main:logout' %}'>Se déconnecter</a>
+            {% else %}
+            <a class="nav-link" href='{% url 'main:login' %}'>Se Connecter</a>
             {% endif %}
-        </div>
+        </li>
+      </ul>
     </nav>
 
     <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-3 col-lg-2 d-md-block sidebar">
-                {% include 'components/sidebar.html' %}
-            </div>
-            <div class="col-md-9 col-lg-10 ms-sm-auto main-content">
-                {% block content %}{% endblock %}
-            </div>
-        </div>
+      <div class="d-flex flex-row w-100">
+
+        <nav class="bg-light sidebar">
+          <div class="sidebar-sticky pt-4" style="width: 13em">
+            <ul class="nav flex-column">
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'main:home' %}">
+                  <span data-feather="home"></span>
+                  Accueil
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'main:list_transactions' %}">
+                  <span data-feather="file"></span>
+                  Transactions
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'main:list_stocks' %}">
+                  <span data-feather="shopping-cart"></span>
+                  Stocks
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'main:list_clients' %}">
+                  <span data-feather="users"></span>
+                  Clients
+                </a>
+              </li>
+            </ul>
+          </div>
+        </nav>
+
+        <main class="col-md-9 ms-sm-auto col-lg-10 ">
+          <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 mt-3 border-bottom">
+            <h1 class="h2" style="flex:1">{% block title_page %}{% endblock %}</h1>
+          {% if show_date == True %}
+              <form method="get" class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center" style="gap: 0.2em">
+                  <div class="column-md-4">
+                      <div>
+                          <input class="form-check-input" type="radio" name="duree" value="hour" />
+                          <label for="contactChoice1">Heure</label>
+                      </div>
+                      <div>
+                          <input class="form-check-input" type="radio" name="duree" value="day" />
+                          <label for="contactChoice1">Jour</label>
+                      </div>
+                      <div>
+                          <input class="form-check-input" type="radio" name="duree" value="week" />
+                          <label for="contactChoice1">Semaine</label>
+                      </div>
+                      <div>
+                          <input class="form-check-input" type="radio" name="duree" value="month" />
+                          <label for="contactChoice1">Mois</label>
+                      </div>
+                      <div>
+                          <input class="form-check-input" type="radio" name="duree" value="all" checked />
+                          <label for="contactChoice1">Tous</label>
+                      </div>
+                  </div>
+                  <div class="d-flex flex-column">
+                      <input type="datetime-local" required class="form-control form-control-sm" id="start_date" name="date" max="{{ now }}">
+                      <div class="d-flex flex-row justify-content-center" style="gap: 0.3em">
+                          <button type="submit" class="btn btn-primary btn-sm">Filtrer</button>
+                          <a href="{{ request.path }}" class="btn btn-outline-secondary btn-sm">
+                              <i class="bi bi-arrow-counterclockwise me-1"></i> Réinitialiser
+                          </a>
+                      </div>
+                  </div>
+              </form>
+          {% endif %}
+          </div>
+
+            {% block content %}{% endblock %}
+
+        </main>
+
+      </div>
     </div>
-</body>
+
+    <!-- Icons -->
+    <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
+    <script>
+      feather.replace()
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+    // Function to parse URL query parameters
+    function getQueryParams() {
+        const params = new URLSearchParams(window.location.search);
+        return {
+            duree: params.get('duree') || 'all',
+            date: params.get('date')
+                ? decodeURIComponent(params.get('date')).replace('T', ' ').replace('%3A', ':')
+                : null
+        };
+    }
+
+    // Get current query parameters
+    const queryParams = getQueryParams();
+
+    // Set the radio button
+    const dureeRadio = document.querySelector(`input[name="duree"][value="${queryParams.duree}"]`);
+    if (dureeRadio) {
+        dureeRadio.checked = true;
+    }
+
+    // Set the datetime input
+    if (queryParams.date) {
+        // Format the date for the datetime-local input
+        const formattedDate = queryParams.date.replace(' ', 'T');
+        const dateInput = document.getElementById('start_date');
+        if (dateInput) {
+            dateInput.value = formattedDate;
+        }
+    }
+});
+    </script>
+
+  </body>
 </html>

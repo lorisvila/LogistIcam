@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
-{% block title_url %}Ajouter Produit{% endblock %}
-{% block title_page %}Ajouter Produit{% endblock %}
+{% block title_url %}Enregistrer transaction{% endblock %}
+{% block title_page %}Enregistrer transaction{% endblock %}
 
 
 {% block content %}
@@ -12,7 +12,7 @@
             {{ form.as_p }}
         </div>
         <button type="submit" class="btn btn-primary">Enregistrer</button>
-        <a href="{% url 'main:list_stocks' %}" class="btn btn-secondary">Annuler</a>
+        <a href="{% url 'main:list_transactions' %}" class="btn btn-secondary">Annuler</a>
     </form>
 </div>
 {% endblock %}

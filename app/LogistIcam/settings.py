@@ -13,7 +13,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 from pathlib import Path
 from telnetlib import LOGOUT
 
-from django.conf.global_settings import LOGIN_URL, LOGIN_REDIRECT_URL
+from django.conf.global_settings import LOGIN_URL, LOGIN_REDIRECT_URL, STATIC_URL
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -28,7 +28,7 @@ SECRET_KEY = 'django-insecure-zsh%%seb8%(z^1rm=1vw+bcu2nbka2n-t2xseimsvk$&w0psqb
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -70,6 +70,10 @@ TEMPLATES = [
         },
     },
 ]
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [
+    BASE_DIR / "static"
+]
 
 WSGI_APPLICATION = 'LogistIcam.wsgi.application'
 
@@ -79,11 +83,11 @@ WSGI_APPLICATION = 'LogistIcam.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'mysql.connector.django',  # Différence cruciale ici
+        'ENGINE': 'mysql.connector.django',  # pip install mysql-connector-python
         'NAME': 'logisticam',
         'USER': 'root',
         'PASSWORD': 'BestPasswordEver:)',
-        'HOST': 'localhost',
+        'HOST': 'db.vilaloris.fr',
         'PORT': '3306',
     }
 }
