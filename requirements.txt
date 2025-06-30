@@ -1,0 +1,11 @@
+asgiref==3.8.1
+beautifulsoup4==4.13.3
+Django==4.2.20
+django-bootstrap-v5==1.0.11
+mysql-connector-python==9.3.0
+setuptools==80.9.0
+soupsieve==2.6
+sqlparse==0.5.3
+transaction==5.0
+typing_extensions==4.13.1
+zope.interface==7.2
