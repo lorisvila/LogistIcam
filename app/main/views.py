@@ -300,7 +300,7 @@ def page_edit_stock(request, pk):
         form = ClientForm(request.POST, instance=client)
         if form.is_valid():
             form.save()
-            return redirect('main:client_list')
+            return redirect('main:list_clients')
     else:
         form = ClientForm(instance=client)
 
