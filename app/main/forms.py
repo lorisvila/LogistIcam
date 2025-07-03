@@ -15,4 +15,4 @@ class TransactionForm(forms.ModelForm):
 class ClientForm(forms.ModelForm):
     class Meta:
         model = Client
-        fields = ['name', 'surname']
+        fields = ['name', 'surname', 'type']

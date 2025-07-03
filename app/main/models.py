@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import Func
 
 
 class Stock(models.Model):
@@ -17,6 +18,7 @@ class Stock(models.Model):
 class Client(models.Model):
     name = models.CharField(max_length=255)
     surname = models.CharField(max_length=255)
+    type = models.CharField(max_length=255, choices=(("Client", "Client"), ("Fournisseur", "Fournisseur")), default="Client")
 
     class Meta:
         db_table = 'clients'
@@ -51,3 +53,13 @@ class Transaction(models.Model):
 
         --> Pourquoi pas ajouter les clients aux transactions --> Historique clients / rapports par clients
     """
+
+class ExtractMonth(Func):
+    function = 'EXTRACT'
+    template = '%(function)s(MONTH from %(expressions)s)'
+    output_field = models.IntegerField()
+
+class ExtractYear(Func):
+    function = 'EXTRACT'
+    template = '%(function)s(YEAR from %(expressions)s)'
+    output_field = models.IntegerField()

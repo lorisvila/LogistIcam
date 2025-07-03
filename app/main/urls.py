@@ -24,4 +24,5 @@ urlpatterns = [
     path('stocks/add/', views.page_add_stock, name='add_stock'),
     path('clients/list', views.client_list, name='list_clients'),
     path('clients/add/', views.page_add_client, name='add_client'),
+    path('clients/<int:pk>/edit/', views.page_edit_stock, name='edit_client'),
 ]

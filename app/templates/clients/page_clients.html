@@ -13,8 +13,10 @@
             <tr>
                 <th>Nom</th>
                 <th>Prénom</th>
+                <th>Client / Fournisseur</th>
                 <th>Nb. Transactions</th>
                 <th>Total ventes (€)</th>
+                <th>Editer</th>
             </tr>
             </thead>
             <tbody>
@@ -22,8 +24,12 @@
                     <tr>
                         <td>{{ client.name }}</td>
                         <td>{{ client.surname }}</td>
+                        <td>{{ client.type }}</td>
                         <td>{{ client.transaction_count }}</td>
                         <td>{{ client.total_vente }}</td>
+                        <td>
+                            <a href="{% url 'main:edit_client' client.id %}" class="btn btn-warning btn-sm">✏️</a>
+                        </td>
                     </tr>
                 {% empty %}
                     <tr>

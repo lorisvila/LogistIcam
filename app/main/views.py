@@ -8,14 +8,13 @@ from .common_functions import filter_transactions
 from .forms import StockForm, TransactionForm, ClientForm
 from .models import Stock, Client
 from datetime import timedelta
-from django.http import Http404
+from django.http import Http404, HttpResponse
 from datetime import datetime
 from decimal import Decimal
 from django.shortcuts import render
 from django.contrib.auth.decorators import permission_required
 from django.db.models import Sum, Count, F, ExpressionWrapper, DecimalField
 from django.utils import timezone
-
 from .models import Transaction
 
 @permission_required('main.view_transaction', login_url='/login/')
@@ -281,7 +280,7 @@ def client_list(request):
     context = {'clients': clients}
     return render(request, 'clients/page_clients.html', context)
 
-@permission_required('main.add_stock', login_url='/login/')
+@permission_required('main.add_client', login_url='/login/')
 def page_add_client(request):
     if request.method == 'POST':
         form = ClientForm(request.POST)
@@ -292,3 +291,17 @@ def page_add_client(request):
         form = ClientForm()
 
     return render(request, 'clients/page_add_client.html', {'form': form})
+
+@permission_required('main.edit_client', login_url='/login/')
+def page_edit_stock(request, pk):
+    client = get_object_or_404(Client, pk=pk)
+
+    if request.method == 'POST':
+        form = ClientForm(request.POST, instance=client)
+        if form.is_valid():
+            form.save()
+            return redirect('main:client_list')
+    else:
+        form = ClientForm(instance=client)
+
+    return render(request, 'stocks/page_edit_stock.html', {'form': form})
