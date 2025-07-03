@@ -10,7 +10,7 @@ app_name = 'main'
 urlpatterns = [
     path('', RedirectView.as_view(url='/accueil/')), # Rediriger si le client demande "/"
 
-    path("admin/", admin.site.urls),
+    path("admin/", admin.site.urls, name='admin'),
     path('login/', LoginView.as_view(), name='login'),
     path('logout/', LogoutView.as_view(), name='logout'),
 

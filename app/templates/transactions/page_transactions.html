@@ -14,8 +14,9 @@
                 <tr>
                     <th>Produit</th>
                     <th>Quantité</th>
+                    <th>Type</th>
                     <th>Stock à date</th>
-                    <th>Client</th>
+                    <th>Client / Fournisseur</th>
                     <th>Date/Heure</th>
                 </tr>
                 </thead>
@@ -24,6 +25,11 @@
                     <tr>
                         <td>{{ transaction.produit.produit }}</td>
                         <td>{{ transaction.quantity }}</td>
+                        {% if transaction.type == 'Achat' %}
+                            <td><span class="badge bg-primary">{{ transaction.type }}</span></td>
+                        {% else %}
+                            <td><span class="badge bg-success">{{ transaction.type }}</span></td>
+                        {% endif %}
                         <td>{{ transaction.new_stock_qt }}</td>
                         <td>{{ transaction.client }}</td>
                         <td>{{ transaction.time|date:"d/m/Y H:i" }}</td>

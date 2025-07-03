@@ -1,14 +1,12 @@
 import json
-from datetime import datetime
 from django.contrib.auth import logout
-from django.contrib.auth.decorators import permission_required
-from django.db.models import Count, Sum, Q, F, DecimalField, ExpressionWrapper, Case, When
-from django.shortcuts import render, get_object_or_404, redirect
+from django.db.models import Q, Case, When
+from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.views.generic import DeleteView
 from .common_functions import filter_transactions
 from .forms import StockForm, TransactionForm, ClientForm
-from .models import Transaction, Stock, Client
+from .models import Stock, Client
 from datetime import timedelta
 from django.http import Http404
 from datetime import datetime
@@ -106,7 +104,7 @@ def page_accueil_view(request):
 
 @permission_required('main.view_transaction', login_url='/login/')
 def page_transactions_view(request):
-    transactions = Transaction.objects.all()
+    transactions = Transaction.objects.all().order_by('-time')
 
     transactions = filter_transactions(transactions, request)
 
