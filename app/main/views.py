@@ -1,6 +1,7 @@
 import json
 from django.contrib.auth import logout
 from django.db.models import Q, Case, When
+from django.forms import IntegerField
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.views.generic import DeleteView
@@ -90,7 +91,19 @@ def page_accueil_view(request):
     else:
         client_of_month = None
 
-    # 10) Passage du contexte à la vue
+    # 12). Valeur du stock
+    stock_value_agg = Stock.objects.aggregate(
+        valeur_stock=Sum(
+            ExpressionWrapper(
+                F('quantity') * F('prix_vente'),
+                output_field=DecimalField(max_digits=14, decimal_places=2)
+            )
+        )
+    )
+    valeur_stock = stock_value_agg['valeur_stock'] or Decimal('0.00')
+
+
+    # 13) Passage du contexte à la vue
     context = {
         'nb_ventes': nb_ventes,
         'chiffre_affaires': chiffre_affaires,
@@ -98,6 +111,7 @@ def page_accueil_view(request):
         'articles_most_sold': articles_most_sold,
         'articles_most_bought': articles_most_bought,
         'client_of_month': client_of_month,
+        'valeur_stock': valeur_stock,
     }
     return render(request, 'page_accueil.html', context)
 
@@ -304,4 +318,4 @@ def page_edit_stock(request, pk):
     else:
         form = ClientForm(instance=client)
 
-    return render(request, 'stocks/page_edit_stock.html', {'form': form})
+    return render(request, 'clients/page_edit_client.html', {'form': form})
