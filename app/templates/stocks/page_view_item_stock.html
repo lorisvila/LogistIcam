@@ -18,6 +18,7 @@
               <th scope="col">Type</th>
               <th scope="col">Qt.</th>
               <th scope="col">Date</th>
+              <th scope="col">Client / Fournisseur</th>
               <th scope="col">Stock à date</th>
             </tr>
           </thead>
@@ -27,6 +28,7 @@
               <td>{{ transaction.type }}</td>
               <td>{{ transaction.quantity }}</td>
               <td>{{ transaction.time }}</td>
+              <td>{{ transaction.client.name }} {{ transaction.client.surname }}</td>
               <td>{{ transaction.new_stock_qt }}</td>
             </tr>
             {% endfor %}
