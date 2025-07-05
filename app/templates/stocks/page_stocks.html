@@ -19,6 +19,7 @@
                     <th>Capital en stock</th>
                     <th style="width: 5em">Graph</th>
                     <th style="width: 5em">Edition</th>
+                    <th style="width: 5em">Rapport</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -34,6 +35,9 @@
                         </td>                        
                         <td>
                             <a href="{% url 'main:edit_stock' stock.id %}" class="btn btn-warning btn-sm">✏️</a>
+                        </td>
+                        <td>
+                            <a href="{% url 'main:generate_stock_item_pdf' stock.id %}" class="btn btn-success btn-sm">📄</a>
                         </td>
                     </tr>
                 {% endfor %}

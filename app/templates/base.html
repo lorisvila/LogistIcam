@@ -239,13 +239,15 @@
     }
 
     // Set the datetime input
+    const dateInput = document.getElementById('start_date');
     if (queryParams.date) {
         // Format the date for the datetime-local input
         const formattedDate = queryParams.date.replace(' ', 'T');
-        const dateInput = document.getElementById('start_date');
         if (dateInput) {
             dateInput.value = formattedDate;
         }
+    } else {
+        dateInput.value = new Date().toISOString().substring(0,16);
     }
 });
     </script>
