@@ -16,7 +16,8 @@
                 <th>Client / Fournisseur</th>
                 <th>Nb. Transactions</th>
                 <th>Total ventes (€)</th>
-                <th>Editer</th>
+                <th style="width: 5em">Editer</th>
+                <th style="width: 5em">Rapport</th>
             </tr>
             </thead>
             <tbody>
@@ -29,6 +30,9 @@
                         <td>{{ client.total_vente }}</td>
                         <td>
                             <a href="{% url 'main:edit_client' client.id %}" class="btn btn-warning btn-sm">✏️</a>
+                        </td>
+                        <td>
+                            <a href="{% url 'main:client_pdf_report' client.id %}" class="btn btn-success btn-sm">📄</a>
                         </td>
                     </tr>
                 {% empty %}
