@@ -1,3 +1,4 @@
+from datetime import timedelta
 from decimal import Decimal
 
 from django.contrib.auth import logout
@@ -14,7 +15,7 @@ from ..models import Transaction, Stock
 def page_accueil_view(request):
     # 1) Début du mois courant
     now = timezone.now()
-    month_start = now.replace(day=1, hour=0, minute=0, second=0, microsecond=0)
+    month_start = now - timedelta(days=30)
 
     # 2) Filtrer les transactions du mois
     trans_month = Transaction.objects.filter(time__gte=month_start)

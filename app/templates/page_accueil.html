@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block title_url %}Tableau de bord{% endblock %}
-{% block title_page %}Dashboard – KPI Mensuels{% endblock %}
+{% block title_page %}Dashboard – KPI Mensuels 📊{% endblock %}
 
 {% block content %}
 <div class="container mt-4">
@@ -58,7 +58,7 @@
   {# ---------- 2. Top Articles ---------- #}
   <div class="row mt-4">
     <div class="col-md-6">
-      <h5>Top 5 Articles les + Vendus</h5>
+        <h5>Top 5️⃣ Articles les + Vendus <span style="font-size: 0.8em; font-style: italic">ces 30 derniers jours</span></h5>
       <table class="table table-striped">
         <thead>
           <tr>
@@ -80,7 +80,7 @@
     </div>
 
     <div class="col-md-6">
-      <h5>Top 5 Articles les + Achetés</h5>
+      <h5>Top 5️⃣ Articles les + Achetés <span style="font-size: 0.8em; font-style: italic">ces 30 derniers jours</span></h5>
       <table class="table table-striped">
         <thead>
           <tr>
@@ -101,8 +101,6 @@
       </table>
     </div>
   </div>
-
-    <a href="{% url 'main:all_transactions' %}" class="btn btn-primary btn-sm" tabindex="-1" role="button" aria-disabled="true">Exporter un rapport</a>
 
 </div>
 {% endblock %}
