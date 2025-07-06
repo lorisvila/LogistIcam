@@ -4,6 +4,18 @@ from django.utils import timezone
 
 
 def get_dates(request):
+    """
+    Extracts start and end datetime based on the given duration and reference datetime provided
+    through a request. The function interprets the `duree` parameter to determine the time range
+    and calculates the start and end dates accordingly. If a specific datetime is provided in the
+    request, it uses it as the reference; otherwise, it defaults to the current local time.
+
+    :param request: A Django HttpRequest object containing `duree` and optional `date` parameters.
+    :type request: HttpRequest
+    :return: A tuple where the first element is the start datetime and the second is the end datetime.
+    :rtype: tuple[datetime.datetime | None, datetime.datetime | None]
+    :raises ValueError: Raised when an invalid date format is provided in the `date` parameter.
+    """
     duree = request.GET.get('duree')
     date_str = request.GET.get('date')
 
@@ -60,6 +72,23 @@ def get_dates(request):
 
 
 def filter_transactions(transactions, request):
+    """
+    Filters a given list of transactions based on a date range specified in the request.
+
+    This function retrieves the date range from the request object through
+    a helper function and applies the corresponding filters to the list
+    of transactions. If a `start_date` is present, only transactions
+    with a timestamp greater than or equal to the `start_date` are included.
+    Similarly, if an `end_date` is present, only transactions with a
+    timestamp less than or equal to the `end_date` are included.
+
+    :param transactions: A queryset or list-like object containing transactions,
+        where each transaction is expected to have a `time` attribute.
+    :param request: The request object containing the date range filters,
+        typically passed as input to handle user input or programmatic context.
+    :return: The filtered list of transactions that fall within the specified
+        date range.
+    """
     start_date, end_date = get_dates(request)
 
     if start_date:
