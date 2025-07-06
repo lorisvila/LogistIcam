@@ -5,21 +5,21 @@
 
 
 {% block content %}
-<div class="container mt-4">
-    <h2 class="mb-2">Connexion</h2>
-    <form method="post">
-        {% csrf_token %}
-        <div class="d-flex flex-column mb- mt-2">
-            <div class="input-group mb-3">
-                <span class="input-group-text" id="basic-addon1">🪪</span>
-                <input type="text" class="form-control" placeholder="Nom d'utilisateur" name="username">
+    <div class="container mt-4">
+        <h2 class="mb-2">Connexion</h2>
+        <form method="post">
+            {% csrf_token %}
+            <div class="d-flex flex-column mb- mt-2">
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1">🪪</span>
+                    <input type="text" class="form-control" placeholder="Nom d'utilisateur" name="username">
+                </div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1">🔑</span>
+                    <input type="password" class="form-control" placeholder="Mot de passe" name="password">
+                </div>
             </div>
-            <div class="input-group mb-3">
-                <span class="input-group-text" id="basic-addon1">🔑</span>
-                <input type="password" class="form-control" placeholder="Mot de passe" name="password">
-            </div>
-        </div>
-        <button type="submit" class="btn btn-primary">Se connecter</button>
-    </form>
-</div>
+            <button type="submit" class="btn btn-primary">Se connecter</button>
+        </form>
+    </div>
 {% endblock %}

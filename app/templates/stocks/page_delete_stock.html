@@ -4,10 +4,10 @@
 {% block title_page %}Supprimer Produit{% endblock %}
 
 {% block content %}
-<form method="post">
-    {% csrf_token %}
-    <p>Êtes-vous sûr de vouloir supprimer "{{ object }}"?</p>
-    <button type="submit" class="btn btn-danger">Confirmer la suppression</button>
-    <a href="{% url 'main:list_stocks' %}" class="btn btn-secondary">Annuler</a>
-</form>
+    <form method="post">
+        {% csrf_token %}
+        <p>Êtes-vous sûr de vouloir supprimer "{{ object }}"?</p>
+        <button type="submit" class="btn btn-danger">Confirmer la suppression</button>
+        <a href="{% url 'main:list_stocks' %}" class="btn btn-secondary">Annuler</a>
+    </form>
 {% endblock %}

@@ -11,13 +11,9 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
-from telnetlib import LOGOUT
-
-from django.conf.global_settings import LOGIN_URL, LOGIN_REDIRECT_URL, STATIC_URL
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
@@ -29,7 +25,6 @@ SECRET_KEY = 'django-insecure-zsh%%seb8%(z^1rm=1vw+bcu2nbka2n-t2xseimsvk$&w0psqb
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
-
 
 # Application definition
 
@@ -77,7 +72,6 @@ STATICFILES_DIRS = [
 
 WSGI_APPLICATION = 'LogistIcam.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
@@ -91,7 +85,6 @@ DATABASES = {
         'PORT': '3306',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
@@ -115,7 +108,6 @@ LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/accueil/'
 LOGOUT_REDIRECT_URL = '/accueil'
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
 
@@ -126,7 +118,6 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/

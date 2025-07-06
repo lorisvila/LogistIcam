@@ -1,19 +1,20 @@
 {% extends "base.html" %}
 
 {% block title_url %}Editer Client{% endblock %}
-{% block title_page %}Modification du client <span style="font-size: .8em; background-color: lightgray; border-radius: .5em; padding: .1em .2em">{{ form.initial.name }} {{ form.initial.surname }}</span>{% endblock %}
+{% block title_page %}Modification du client
+    <span style="font-size: .8em; background-color: lightgray; border-radius: .5em; padding: .1em .2em">{{ form.initial.name }} {{ form.initial.surname }}</span>{% endblock %}
 
 
 {% block content %}
-<div class="container mt-4">
-    <form method="post">
-        {% csrf_token %}
-        <div class="mb-3">
-            {{ form.as_p }}
-        </div>
-        <a href="{% url 'main:list_clients' %}" class="btn btn-secondary">Annuler</a>
-        <button type="submit" class="btn btn-primary">Enregistrer</button>
-        <a href="{% url 'main:delete_client' form.instance.id %}" class="btn btn-danger">Supprimer</a>
-    </form>
-</div>
+    <div class="container mt-4">
+        <form method="post">
+            {% csrf_token %}
+            <div class="mb-3">
+                {{ form.as_p }}
+            </div>
+            <a href="{% url 'main:list_clients' %}" class="btn btn-secondary">Annuler</a>
+            <button type="submit" class="btn btn-primary">Enregistrer</button>
+            <a href="{% url 'main:delete_client' form.instance.id %}" class="btn btn-danger">Supprimer</a>
+        </form>
+    </div>
 {% endblock %}

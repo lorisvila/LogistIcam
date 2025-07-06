@@ -4,103 +4,110 @@
 {% block title_page %}Dashboard – KPI Mensuels 📊{% endblock %}
 
 {% block content %}
-<div class="container mt-4">
+    <div class="container mt-4">
 
-  {# ---------- 1. KPI Cards ---------- #}
-  <div class="row text-center">
-    <div class="col mb-3 d-flex">
-      <div class="card border-primary">
-        <div class="card-body">
-          <h6 class="card-subtitle mb-2 text-muted">Nb. Ventes</h6>
-          <p class="card-text display-6">{{ nb_ventes }}</p>
+        {# ---------- 1. KPI Cards ---------- #}
+        <div class="row text-center">
+            <div class="col mb-3 d-flex">
+                <div class="card border-primary">
+                    <div class="card-body">
+                        <h6 class="card-subtitle mb-2 text-muted">Nb. Ventes</h6>
+                        <p class="card-text display-6">{{ nb_ventes }}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col mb-3 d-flex">
+                <div class="card border-success">
+                    <div class="card-body">
+                        <h6 class="card-subtitle mb-2 text-muted">Chiffre d’affaires</h6>
+                        <p class="card-text display-6">{{ chiffre_affaires|floatformat:2 }} €</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col mb-3 d-flex">
+                <div class="card border-warning">
+                    <div class="card-body">
+                        <h6 class="card-subtitle mb-2 text-muted">Bénéfice</h6>
+                        <p class="card-text display-6">{{ benefice|floatformat:2 }} €</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col mb-3 d-flex">
+                <div class="card border-dark w-100">
+                    <div class="card-body">
+                        <h6 class="card-subtitle mb-2 text-muted">Valeur du stock actuel</h6>
+                        <p class="card-text display-6">{{ valeur_stock|floatformat:2 }} €</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col mb-3 d-flex">
+                <div class="card border-info">
+                    <div class="card-body text-left">
+                        <h6 class="card-subtitle mb-2 text-muted">Client du mois</h6>
+                        {% if client_of_month %}
+                            <p class="h4 mb-1">{{ client_of_month.name }}</p>
+                            <small class="text-muted">Total dépensé : {{ client_of_month.total_spent|floatformat:2 }}
+                                €</small>
+                        {% else %}
+                            <p class="h5 text-muted">Aucun</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-    <div class="col mb-3 d-flex">
-      <div class="card border-success">
-        <div class="card-body">
-          <h6 class="card-subtitle mb-2 text-muted">Chiffre d’affaires</h6>
-          <p class="card-text display-6">{{ chiffre_affaires|floatformat:2 }} €</p>
-        </div>
-      </div>
-    </div>
-    <div class="col mb-3 d-flex">
-      <div class="card border-warning">
-        <div class="card-body">
-          <h6 class="card-subtitle mb-2 text-muted">Bénéfice</h6>
-          <p class="card-text display-6">{{ benefice|floatformat:2 }} €</p>
-        </div>
-      </div>
-    </div>
-    <div class="col mb-3 d-flex">
-    <div class="card border-dark w-100">
-      <div class="card-body">
-        <h6 class="card-subtitle mb-2 text-muted">Valeur du stock actuel</h6>
-        <p class="card-text display-6">{{ valeur_stock|floatformat:2 }} €</p>
-      </div>
-    </div>
-    </div>
-    <div class="col mb-3 d-flex">
-      <div class="card border-info">
-        <div class="card-body text-left">
-          <h6 class="card-subtitle mb-2 text-muted">Client du mois</h6>
-          {% if client_of_month %}
-            <p class="h4 mb-1">{{ client_of_month.name }}</p>
-            <small class="text-muted">Total dépensé : {{ client_of_month.total_spent|floatformat:2 }} €</small>
-          {% else %}
-            <p class="h5 text-muted">Aucun</p>
-          {% endif %}
-        </div>
-      </div>
-    </div>
-  </div>
 
-  {# ---------- 2. Top Articles ---------- #}
-  <div class="row mt-4">
-    <div class="col-md-6">
-        <h5>Top 5️⃣ Articles les + Vendus <span style="font-size: 0.8em; font-style: italic">ces 30 derniers jours</span></h5>
-      <table class="table table-striped">
-        <thead>
-          <tr>
-            <th>Produit</th>
-            <th>Quantité vendue</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for art in articles_most_sold %}
-            <tr>
-              <td>{{ art.produit__produit }}</td>
-              <td>{{ art.total_qty }}</td>
-            </tr>
-          {% empty %}
-            <tr><td colspan="2" class="text-center">— Aucune vente ce mois-ci —</td></tr>
-          {% endfor %}
-        </tbody>
-      </table>
-    </div>
+        {# ---------- 2. Top Articles ---------- #}
+        <div class="row mt-4">
+            <div class="col-md-6">
+                <h5>Top 5️⃣ Articles les + Vendus <span style="font-size: 0.8em; font-style: italic">ces 30 derniers jours</span>
+                </h5>
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>Produit</th>
+                        <th>Quantité vendue</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for art in articles_most_sold %}
+                        <tr>
+                            <td>{{ art.produit__produit }}</td>
+                            <td>{{ art.total_qty }}</td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="2" class="text-center">— Aucune vente ce mois-ci —</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
 
-    <div class="col-md-6">
-      <h5>Top 5️⃣ Articles les + Achetés <span style="font-size: 0.8em; font-style: italic">ces 30 derniers jours</span></h5>
-      <table class="table table-striped">
-        <thead>
-          <tr>
-            <th>Produit</th>
-            <th>Quantité achetée</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for art in articles_most_bought %}
-            <tr>
-              <td>{{ art.produit__produit }}</td>
-              <td>{{ art.total_qty }}</td>
-            </tr>
-          {% empty %}
-            <tr><td colspan="2" class="text-center">— Aucun achat ce mois-ci —</td></tr>
-          {% endfor %}
-        </tbody>
-      </table>
-    </div>
-  </div>
+            <div class="col-md-6">
+                <h5>Top 5️⃣ Articles les + Achetés <span style="font-size: 0.8em; font-style: italic">ces 30 derniers jours</span>
+                </h5>
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>Produit</th>
+                        <th>Quantité achetée</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for art in articles_most_bought %}
+                        <tr>
+                            <td>{{ art.produit__produit }}</td>
+                            <td>{{ art.total_qty }}</td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="2" class="text-center">— Aucun achat ce mois-ci —</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
 
-</div>
+    </div>
 {% endblock %}

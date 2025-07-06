@@ -1,38 +1,39 @@
 {% extends "base.html" %}
 
 {% block title_url %}Visualisation du stock{% endblock %}
-{% block title_page %}Visualisation de l'historique du produit <br><span style="font-size: .8em; background-color: lightgray; border-radius: .5em; padding: .1em .2em">{{ produit.produit }}</span>{% endblock %}
+{% block title_page %}Visualisation de l'historique du produit <br>
+    <span style="font-size: .8em; background-color: lightgray; border-radius: .5em; padding: .1em .2em">{{ produit.produit }}</span>{% endblock %}
 
 
 {% block content %}
     <div class="container mt-4">
 
         <div>
-          <canvas id="chart"></canvas>
+            <canvas id="chart"></canvas>
         </div>
 
 
         <table class="table">
-          <thead>
+            <thead>
             <tr>
-              <th scope="col">Type</th>
-              <th scope="col">Qt.</th>
-              <th scope="col">Date</th>
-              <th scope="col">Client / Fournisseur</th>
-              <th scope="col">Stock à date</th>
+                <th scope="col">Type</th>
+                <th scope="col">Qt.</th>
+                <th scope="col">Date</th>
+                <th scope="col">Client / Fournisseur</th>
+                <th scope="col">Stock à date</th>
             </tr>
-          </thead>
-          <tbody>
+            </thead>
+            <tbody>
             {% for transaction in transactions_obj %}
-            <tr>
-              <td>{{ transaction.type }}</td>
-              <td>{{ transaction.quantity }}</td>
-              <td>{{ transaction.time }}</td>
-              <td>{{ transaction.client.name }} {{ transaction.client.surname }}</td>
-              <td>{{ transaction.new_stock_qt }}</td>
-            </tr>
+                <tr>
+                    <td>{{ transaction.type }}</td>
+                    <td>{{ transaction.quantity }}</td>
+                    <td>{{ transaction.time }}</td>
+                    <td>{{ transaction.client.name }} {{ transaction.client.surname }}</td>
+                    <td>{{ transaction.new_stock_qt }}</td>
+                </tr>
             {% endfor %}
-          </tbody>
+            </tbody>
         </table>
 
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -40,40 +41,43 @@
 
         {{ transactions | json_script:"transactions-json" }}
         <script>
-          const ctx = document.getElementById('chart');
+            const ctx = document.getElementById('chart');
 
-          const data = JSON.parse(JSON.parse(document.getElementById('transactions-json').textContent));
+            const data = JSON.parse(JSON.parse(document.getElementById('transactions-json').textContent));
 
-          const transData = data.map(({time, quantity}) => ({x: time*1000, y: quantity}))
-          const stockData = [...data.map(({time, new_stock_qt}) => ({x: time*1000, y: new_stock_qt})), {x: Date.now(), y: {{produit.quantity}} }]
-          const labels = data.map(({time}) => (time*1000))
+            const transData = data.map(({time, quantity}) => ({x: time * 1000, y: quantity}))
+            const stockData = [...data.map(({time, new_stock_qt}) => ({
+                x: time * 1000,
+                y: new_stock_qt
+            })), {x: Date.now(), y: {{produit.quantity}}}]
+            const labels = data.map(({time}) => (time * 1000))
 
-          const mixedChart = new Chart(ctx, {
-            data: {
-                datasets: [{
-                    type: 'bar',
-                    label: 'Transactions',
-                    data: transData
-                }, {
-                    type: 'line',
-                    label: 'Stock',
-                    data: stockData,
-                    tension: 0.1
-                }],
-                labels: labels
-            },
-              options: {
-                scales: {
-                  x: {
-                    type: 'time',
-                    time: {
-                      unit: 'day',
-                      tooltipFormat: 'HH:mm - dd MMM yyyy'
+            const mixedChart = new Chart(ctx, {
+                data: {
+                    datasets: [{
+                        type: 'bar',
+                        label: 'Transactions',
+                        data: transData
+                    }, {
+                        type: 'line',
+                        label: 'Stock',
+                        data: stockData,
+                        tension: 0.1
+                    }],
+                    labels: labels
+                },
+                options: {
+                    scales: {
+                        x: {
+                            type: 'time',
+                            time: {
+                                unit: 'day',
+                                tooltipFormat: 'HH:mm - dd MMM yyyy'
+                            }
+                        }
                     }
-                  }
                 }
-              }
-        });
+            });
         </script>
     </div>
 {% endblock %}

@@ -5,14 +5,14 @@
 
 
 {% block content %}
-<div class="container mt-4">
-    <form method="post">
-        {% csrf_token %}
-        <div class="mb-3">
-            {{ form.as_p }}
-        </div>
-        <button type="submit" class="btn btn-primary">Enregistrer</button>
-        <a href="{% url 'main:list_transactions' %}" class="btn btn-secondary">Annuler</a>
-    </form>
-</div>
+    <div class="container mt-4">
+        <form method="post">
+            {% csrf_token %}
+            <div class="mb-3">
+                {{ form.as_p }}
+            </div>
+            <button type="submit" class="btn btn-primary">Enregistrer</button>
+            <a href="{% url 'main:list_transactions' %}" class="btn btn-secondary">Annuler</a>
+        </form>
+    </div>
 {% endblock %}

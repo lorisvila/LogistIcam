@@ -1,28 +1,24 @@
+import io
+from datetime import timedelta
+
+import matplotlib.pyplot as plt
 from django.contrib.auth.decorators import permission_required
-from django.db.models import Count
 from django.db.models import Q, Case, When
-from django.db.models import Sum, DecimalField
+from django.db.models import Sum, Count, F, ExpressionWrapper, DecimalField
+from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect
 from django.shortcuts import render
 from django.urls import reverse_lazy
-from django.views.generic import DeleteView
-
-from ..forms import ClientForm
-from ..models import Client
-
-import io
-from datetime import datetime, timedelta
-from django.http import HttpResponse
 from django.utils import timezone
-from django.db.models import Sum, Count, F, ExpressionWrapper, DecimalField
-from django.contrib.auth.decorators import permission_required
-import matplotlib.pyplot as plt
+from django.views.generic import DeleteView
 from reportlab.lib import colors
 from reportlab.lib.pagesizes import letter
+from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.lib.units import inch
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Table, TableStyle, Image, Spacer
-from reportlab.lib.styles import getSampleStyleSheet
-from ..models import Client, Transaction, Stock, ExtractMonth, ExtractYear
+
+from ..forms import ClientForm
+from ..models import Client, Transaction, ExtractMonth, ExtractYear
 
 
 @permission_required('main.view_client', login_url='/login/')

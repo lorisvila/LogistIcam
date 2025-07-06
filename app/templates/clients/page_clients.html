@@ -21,25 +21,25 @@
             </tr>
             </thead>
             <tbody>
-                {% for client in clients %}
-                    <tr>
-                        <td>{{ client.name }}</td>
-                        <td>{{ client.surname }}</td>
-                        <td>{{ client.type }}</td>
-                        <td>{{ client.transaction_count }}</td>
-                        <td>{{ client.total_vente }}</td>
-                        <td>
-                            <a href="{% url 'main:edit_client' client.id %}" class="btn btn-warning btn-sm">✏️</a>
-                        </td>
-                        <td>
-                            <a href="{% url 'main:client_pdf_report' client.id %}" class="btn btn-success btn-sm">📄</a>
-                        </td>
-                    </tr>
-                {% empty %}
-                    <tr>
-                        <td colspan="5" class="text-center">Aucun client enregistré</td>
-                    </tr>
-                {% endfor %}
+            {% for client in clients %}
+                <tr>
+                    <td>{{ client.name }}</td>
+                    <td>{{ client.surname }}</td>
+                    <td>{{ client.type }}</td>
+                    <td>{{ client.transaction_count }}</td>
+                    <td>{{ client.total_vente }}</td>
+                    <td>
+                        <a href="{% url 'main:edit_client' client.id %}" class="btn btn-warning btn-sm">✏️</a>
+                    </td>
+                    <td>
+                        <a href="{% url 'main:client_pdf_report' client.id %}" class="btn btn-success btn-sm">📄</a>
+                    </td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="5" class="text-center">Aucun client enregistré</td>
+                </tr>
+            {% endfor %}
             </tbody>
         </table>
     </div>
